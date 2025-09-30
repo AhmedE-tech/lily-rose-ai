@@ -1,21 +1,20 @@
 # Lily-Cloud/backend/Dockerfile
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
 WORKDIR /app
 
-# Copy requirements first for better caching
+# Install dependencies
+RUN apk add --no-cache gcc musl-dev linux-headers
+
+# Copy requirements
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application code
+# Copy application
 COPY . .
 
-# Create non-root user
-RUN useradd --create-home --shell /bin/bash app
-USER app
-
 # Expose port
-EXPOSE 8080
+EXPOSE 8000
 
 # Start command
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
