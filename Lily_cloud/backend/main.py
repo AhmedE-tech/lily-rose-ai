@@ -102,5 +102,6 @@ async def get_history(session_id: str):
     return {"history": history}
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", 8000))
+    import uvicorn
+    port = int(os.getenv("PORT", 8080))
     uvicorn.run(app, host="0.0.0.0", port=port)
